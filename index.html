@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Younited – Rachat de crédits v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #7B5EA7;
+  --purple-dark: #5C3D8F;
+  --purple-light: #9B7CC7;
+  --lavender: #EDE8F5;
+  --lavender-mid: #D8CCF0;
+  --lavender-bg: #F3F0FA;
+  --white: #FFFFFF;
+  --text: #1A1A2E;
+  --muted: #7A7A9A;
+  --border: #E2DCF0;
+  --success: #2ECC71;
+  --warning: #F39C12;
+  --error: #E74C3C;
+  --info-bg: #EEF2FF;
+  --info-border: #C7D2FE;
+  --new: #FF5533;
+  --new-bg: #FFF3F0;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(123,94,167,0.1);
+  --shadow-md: 0 4px 24px rgba(123,94,167,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito Sans', sans-serif; background: var(--white); color: var(--text); min-height: 100vh; font-size: 15px; }
+
+/* ── LANDING ── */
+#page-landing { display: flex; flex-direction: column; min-height: 100vh; }
+.landing-nav { background: white; padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: var(--text); }
+.nav-logo span { color: var(--purple); }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
+.nav-cta { background: var(--purple); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.landing-hero { background: linear-gradient(160deg, #EDE8F5 0%, #F8F5FF 40%, #EDE8F5 100%); padding: 80px 48px 100px; text-align: center; position: relative; overflow: hidden; }
+.landing-hero::before { content: ''; position: absolute; top: -80px; left: -80px; width: 300px; height: 300px; background: rgba(155,124,199,0.15); border-radius: 50%; }
+.hero-title { font-family: 'Nunito', sans-serif; font-size: 52px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; position: relative; z-index: 1; }
+.hero-subtitle { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto 48px; line-height: 1.6; position: relative; z-index: 1; }
+.simulator-card { background: white; border-radius: 16px; padding: 24px; max-width: 720px; margin: 0 auto; box-shadow: 0 8px 40px rgba(123,94,167,0.2); display: flex; gap: 12px; align-items: flex-end; position: relative; z-index: 1; }
+.sim-field { flex: 1; }
+.sim-field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.sim-select { width: 100%; height: 52px; border: 1.5px solid var(--border); border-radius: 10px; padding: 0 40px 0 16px; font-size: 15px; font-family: 'Nunito Sans', sans-serif; color: var(--text); background: white url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%237A7A9A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center; appearance: none; cursor: pointer; }
+.sim-btn { background: var(--purple); color: white; border: none; height: 52px; padding: 0 28px; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(123,94,167,0.3); transition: all .2s; }
+.sim-btn:hover { background: var(--purple-dark); transform: translateY(-1px); }
+.sim-note { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; position: relative; z-index: 1; }
+.tp-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; font-size: 13px; color: var(--muted); position: relative; z-index: 1; }
+.tp-stars-sm { color: #00B67A; font-size: 16px; letter-spacing: 2px; }
+
+/* ── FUNNEL ── */
+#page-funnel { display: none; min-height: 100vh; flex-direction: column; }
+#page-funnel.active { display: flex; }
+.funnel-topbar { height: 56px; background: white; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; position: sticky; top: 0; z-index: 100; }
+.funnel-logo { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: var(--text); }
+.funnel-logo span { color: var(--purple); }
+.funnel-secure { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+.funnel-progress { height: 3px; background: var(--lavender); }
+.funnel-progress-fill { height: 3px; background: var(--purple); transition: width .5s ease; }
+.funnel-body { display: flex; flex: 1; }
+
+/* Left panel */
+.funnel-left { width: 360px; min-height: calc(100vh - 59px); background: var(--lavender-bg); padding: 48px 36px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow: hidden; flex-shrink: 0; }
+.funnel-left::before { content: ''; position: absolute; bottom: -60px; left: -60px; width: 200px; height: 200px; background: rgba(123,94,167,0.08); border-radius: 50%; }
+.left-illustration { font-size: 72px; margin-bottom: 24px; position: relative; z-index: 1; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.left-title { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 14px; line-height: 1.3; position: relative; z-index: 1; }
+.left-body { font-size: 13px; color: var(--muted); line-height: 1.6; position: relative; z-index: 1; }
+.left-body b { color: var(--text); }
+.left-badges { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 24px; position: relative; z-index: 1; }
+.badge { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 12px; font-weight: 600; color: var(--text); text-align: center; width: 130px; }
+.badge-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.tp-panel { padding: 20px; width: 100%; position: relative; z-index: 1; }
+.tp-score { font-size: 22px; font-weight: 900; font-family: 'Nunito', sans-serif; }
+.tp-stars { color: #00B67A; font-size: 20px; letter-spacing: 3px; }
+.tp-review { background: white; border-radius: 10px; padding: 14px; margin-top: 14px; text-align: left; border: 1px solid var(--border); }
+.tp-review-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+.tp-review-body { font-size: 12px; color: var(--muted); }
+.tp-review-author { font-size: 11px; color: var(--purple); margin-top: 6px; font-weight: 600; }
+
+/* Right panel */
+.funnel-right { flex: 1; background: white; display: flex; flex-direction: column; overflow: hidden; }
+.funnel-right-inner { flex: 1; padding: 40px 56px; max-width: 740px; overflow-y: auto; }
+.funnel-footer { border-top: 1px solid var(--border); padding: 18px 56px; display: flex; align-items: center; justify-content: space-between; background: white; flex-shrink: 0; }
+.footer-note { font-size: 12px; color: var(--muted); }
+
+/* Buttons */
+.back-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--text); background: none; border: none; cursor: pointer; margin-bottom: 24px; padding: 0; font-family: 'Nunito Sans', sans-serif; text-decoration: underline; text-underline-offset: 2px; }
+.back-btn:hover { color: var(--purple); }
+.cta-btn { background: var(--purple); color: white; border: none; height: 52px; padding: 0 40px; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; transition: all .2s; box-shadow: 0 4px 20px rgba(123,94,167,0.25); display: flex; align-items: center; gap: 10px; }
+.cta-btn:hover { background: var(--purple-dark); transform: translateY(-1px); }
+.cta-btn:disabled { background: var(--border); color: var(--muted); box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* Fields */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field > label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 7px; }
+.f-input, .f-select { width: 100%; height: 50px; border: 1.5px solid var(--border); border-radius: 10px; padding: 0 16px; font-size: 15px; font-family: 'Nunito Sans', sans-serif; color: var(--text); background: white; outline: none; transition: border-color .2s, box-shadow .2s; }
+.f-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%237A7A9A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer; }
+.f-input:focus, .f-select:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(123,94,167,0.1); }
+.f-input::placeholder { color: #C5BEE0; }
+.input-wrap { position: relative; }
+.input-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--muted); pointer-events: none; font-weight: 600; }
+.field-row { display: grid; gap: 12px; margin-bottom: 16px; }
+.field-row.c2 { grid-template-columns: 1fr 1fr; }
+.field-row.c3 { grid-template-columns: 1fr 1fr 1fr; }
+.field-row > .field { margin-bottom: 0; }
+
+/* Titles */
+.step-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 4px; line-height: 1.2; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.step-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+.step-subtitle b { color: var(--text); }
+
+/* Section dividers */
+.section-head { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--purple); padding-bottom: 10px; border-bottom: 2px solid var(--lavender); margin: 24px 0 16px; display: flex; align-items: center; gap: 10px; }
+.section-head:first-of-type { margin-top: 0; }
+
+/* NEW badge */
+.new-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #FF5533, #FF8C00); color: white; font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; box-shadow: 0 2px 8px rgba(255,85,51,0.35); animation: pulse-new 2s ease-in-out infinite; flex-shrink: 0; }
+@keyframes pulse-new { 0%,100% { box-shadow: 0 2px 8px rgba(255,85,51,0.35); } 50% { box-shadow: 0 2px 16px rgba(255,85,51,0.55); } }
+.new-left-banner { background: linear-gradient(135deg, #FF5533, #FF8C00); color: white; border-radius: 12px; padding: 10px 16px; margin-bottom: 20px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(255,85,51,0.3); animation: pulse-new 2s ease-in-out infinite; position: relative; z-index: 1; }
+
+/* Routing strip */
+.routing-strip { display: flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 9px; font-size: 12px; font-weight: 700; margin-bottom: 20px; }
+.routing-strip.us2 { background: #FFF7ED; border: 1.5px solid #FED7AA; color: #C2410C; }
+.routing-strip.us3 { background: #F0FDF4; border: 1.5px solid #BBF7D0; color: #15803D; }
+
+/* Credit cards */
+.credit-card { background: var(--lavender-bg); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; transition: border-color .2s; }
+.credit-card:hover { border-color: var(--lavender-mid); }
+.credit-card-head { background: white; border-bottom: 1px solid var(--border); padding: 11px 16px; display: flex; align-items: center; gap: 10px; }
+.credit-num { width: 24px; height: 24px; background: var(--purple); color: white; border-radius: 50%; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', sans-serif; flex-shrink: 0; }
+.credit-num.green { background: #00897B; }
+.credit-card-label { font-weight: 700; font-size: 14px; font-family: 'Nunito', sans-serif; }
+.credit-card-body { padding: 14px 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.credit-card-body.c2 { grid-template-columns: 1fr 1fr; }
+.credit-card-body > .field { margin: 0; }
+
+/* Radio & toggle */
+.radio-group { display: flex; gap: 10px; }
+.radio-card { flex: 1; border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 14px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; transition: all .2s; }
+.radio-card:hover { border-color: var(--purple-light); background: var(--lavender-bg); }
+.radio-card.selected { border-color: var(--purple); background: var(--lavender); }
+.radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); transition: all .2s; flex-shrink: 0; }
+.radio-card.selected .radio-dot { border-color: var(--purple); background: var(--purple); box-shadow: inset 0 0 0 3px white; }
+.toggle-group { display: flex; gap: 10px; }
+.toggle-btn { flex: 1; height: 48px; border: 1.5px solid var(--border); border-radius: 10px; background: white; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Nunito', sans-serif; color: var(--text); transition: all .2s; }
+.toggle-btn:hover { border-color: var(--purple-light); background: var(--lavender-bg); }
+.toggle-btn.active { border-color: var(--purple); background: var(--purple); color: white; }
+
+/* Checkbox */
+.checkbox-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .2s; margin-bottom: 10px; }
+.checkbox-row:hover { border-color: var(--purple-light); }
+.checkbox-row.checked { border-color: var(--purple); background: var(--lavender); }
+.checkbox-row.accept-all { background: var(--lavender-bg); border-color: var(--lavender-mid); }
+.checkbox-box { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; transition: all .2s; }
+.checkbox-row.checked .checkbox-box { background: var(--purple); border-color: var(--purple); }
+.checkbox-check { color: white; font-size: 12px; display: none; }
+.checkbox-row.checked .checkbox-check { display: block; }
+.checkbox-text { font-size: 14px; line-height: 1.4; }
+.checkbox-text a { color: var(--purple); }
+
+/* Banners */
+.info-banner { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: 10px; padding: 11px 16px; font-size: 13px; color: #4338CA; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+.warn-banner { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; padding: 11px 16px; font-size: 13px; color: #92400E; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+.success-banner { background: #ECFDF5; border: 1px solid #6EE7B7; border-radius: 10px; padding: 11px 16px; font-size: 13px; color: #065F46; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+
+/* Summary box */
+.summary-box { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%); border-radius: 14px; padding: 22px; color: white; margin: 20px 0; position: relative; overflow: hidden; }
+.summary-box::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+.summary-box-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 14px; font-family: 'Nunito', sans-serif; }
+.sum-section { margin-bottom: 10px; }
+.sum-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.6; margin-bottom: 6px; }
+.sum-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); border-radius: 7px; padding: 9px 12px; font-size: 13px; margin-bottom: 5px; }
+.sum-row.total { background: rgba(255,255,255,0.2); font-size: 16px; border: 1px solid rgba(255,255,255,0.2); font-weight: 700; }
+.sum-val { font-weight: 800; font-family: 'Nunito', sans-serif; }
+.sum-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 12px 0; }
+
+/* Routing banners */
+.route-banner { border-radius: 10px; padding: 13px 16px; font-size: 13px; font-weight: 600; display: none; align-items: center; gap: 10px; margin-bottom: 14px; }
+.route-banner.show { display: flex; }
+.route-banner.us2 { background: #EEF2FF; border: 1.5px solid var(--info-border); color: #4338CA; }
+.route-banner.us3 { background: #ECFDF5; border: 1.5px solid #6EE7B7; color: #065F46; }
+
+/* Recap cards */
+.recap-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+.recap-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.recap-card-title { font-weight: 800; font-size: 15px; font-family: 'Nunito', sans-serif; }
+.recap-edit { font-size: 13px; color: var(--purple); font-weight: 600; cursor: pointer; background: none; border: none; font-family: 'Nunito Sans', sans-serif; }
+.recap-row { margin-bottom: 8px; }
+.recap-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+.recap-value { font-size: 15px; font-weight: 700; }
+
+/* Divider */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* Refused */
+.refused-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 48px 40px; flex: 1; }
+.refused-icon { font-size: 72px; margin-bottom: 20px; }
+.refused-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; margin-bottom: 10px; }
+.refused-body { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.6; margin-bottom: 28px; }
+.optin-card { background: var(--lavender-bg); border: 1.5px solid var(--border); border-radius: 14px; padding: 22px; max-width: 500px; width: 100%; text-align: left; margin-bottom: 20px; }
+.optin-card.highlight { border-color: var(--new); background: var(--new-bg); }
+.optin-card-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.optin-card-body { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+
+/* Tracking debug */
+.tracking-details { margin-top: 16px; border: 1px dashed var(--border); border-radius: 10px; overflow: hidden; font-size: 12px; }
+.tracking-details summary { padding: 9px 14px; color: var(--muted); cursor: pointer; font-weight: 600; }
+.tracking-details pre { padding: 12px 14px; background: #F8F7FC; border-top: 1px solid var(--border); line-height: 1.6; color: #4A4A6A; white-space: pre-wrap; }
+
+/* Blocked field */
+.f-input.blocked, .f-select.blocked { background: var(--lavender-bg); color: var(--muted); cursor: not-allowed; border-color: var(--lavender-mid); }
+
+/* Anim */
+.step-anim { animation: stepIn .3s ease; }
+@keyframes stepIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ LANDING ═══════ -->
+<div id="page-landing">
+  <nav class="landing-nav">
+    <div class="nav-logo">Y<span>O</span>UNITED</div>
+    <div class="nav-links"><a href="#">Nos produits</a><a href="#">Avis</a><a href="#">Aide et support</a></div>
+    <button class="nav-cta">Espace client & suivi</button>
+  </nav>
+  <div class="landing-hero">
+    <h1 class="hero-title">Le crédit,<br>en plus rapide</h1>
+    <p class="hero-subtitle">Empruntez auprès de notre communauté d'investisseurs et obtenez un prêt en moins de 24h à des taux imbattables, sans frais de remboursement anticipé.</p>
+    <div class="simulator-card">
+      <div class="sim-field">
+        <label>Votre projet</label>
+        <select class="sim-select" id="landing-project">
+          <option value="">— Votre projet —</option>
+          <option value="tresorerie">Trésorerie</option>
+          <option value="auto">Véhicule</option>
+          <option value="rachat">Rachat de crédits</option>
+          <option value="travaux">Travaux</option>
+          <option value="mariage">Mariage</option>
+          <option value="voyage">Voyage</option>
+        </select>
+      </div>
+      <div class="sim-field">
+        <label>Montant souhaité</label>
+        <select class="sim-select" id="landing-amount">
+          <option value="">— Montant —</option>
+          <option value="3000">3 000 €</option><option value="5000">5 000 €</option>
+          <option value="10000">10 000 €</option><option value="15000">15 000 €</option>
+          <option value="20000">20 000 €</option><option value="30000">30 000 €</option>
+          <option value="50000">50 000 €</option>
+        </select>
+      </div>
+      <button class="sim-btn" onclick="startFunnel()">CONTINUER →</button>
+    </div>
+    <p class="sim-note">Sans engagement</p>
+    <div class="tp-row"><span class="tp-stars-sm">★★★★★</span><span>TrustScore 4.7 · <strong>77 492 avis</strong> sur Trustpilot</span></div>
+  </div>
+</div>
+
+<!-- ═══════ FUNNEL ═══════ -->
+<div id="page-funnel">
+  <div class="funnel-topbar">
+    <div class="funnel-logo">Y<span>O</span>UNITED</div>
+    <div class="funnel-secure">🔒 Formulaire sécurisé</div>
+  </div>
+  <div class="funnel-progress"><div class="funnel-progress-fill" id="pfill" style="width:5%"></div></div>
+  <div class="funnel-body">
+    <div class="funnel-left" id="left-panel"></div>
+    <div class="funnel-right">
+      <div class="funnel-right-inner" id="step-content"></div>
+      <div class="funnel-footer" id="funnel-footer">
+        <span class="footer-note">🔒 Vos données sont en sécurité</span>
+        <button class="cta-btn" id="main-cta" onclick="nextStep()">Continuer →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const S = {
+  routing: null,          // 'us2' | 'us3'
+  totalRequested: 0,
+
+  // US1 – consumer credits
+  consumerMode: null,     // 'detail' | 'bulk'
+  consumerCount: 0,
+  consumerCredits: [],    // [{type, monthly, capital}]
+  consumerBulkMonthly: '',
+  consumerBulkCapital: '',
+
+  // US1 – mortgage credits
+  hasMortgage: null,
+  mortgageCount: 0,
+  mortgageCredits: [],    // [{monthly, capital}]
+  propertyValue: '',
+
+  // Additional
+  wantsAdditional: null,
+  additionalAmount: 0,
+
+  // Standard steps
+  email: '',
+  consents: { younited: false, partners: false, refuse: false },
+  family: { situation: '', children: '0' },
+  housing: { type: '', since_month: '', since_year: '', property_value: '', remaining_debt: '' },
+  pro: { situation: '', sector: '', profession: '', entry_month: '', entry_year: '' },
+  identity: { civility: '', firstname: '', lastname: '', birthname: '', birth_day: '', birth_month: '', birth_year: '' },
+  birthplace: { country: 'FRANCE', city: '' },
+  nationality: 'FRANCE',
+  phone: '',
+  address: { country: 'FRANCE', street_num: '', street: '', complement: '', zip: '', city: '' },
+  bank: { name: '', year: '' },
+  income: { salary: '', months: '12', housing_allowance: '', other: '' },
+  expenses: { alimony: '', other_credits_monthly: '' },
+  optin_refused: false,
+};
+
+// ═══════════════════════════════════════════
+// STEPS
+// ═══════════════════════════════════════════
+// US2 flow (>10k)
+const STEPS_US2 = [
+  'debt',       // 0 – NEW
+  'email',      // 1
+  'consents',   // 2
+  'family',     // 3
+  'housing',    // 4 – NEW (extra fields)
+  'pro',        // 5
+  'identity',   // 6
+  'birthplace', // 7
+  'nationality',// 8
+  'phone',      // 9
+  'confirm',    // 10
+  'address',    // 11
+  'bank',       // 12
+  'income',     // 13
+  'expenses',   // 14 – NEW (adapted)
+  'optin_catchup', // 15 – NEW (if partner opt-in not given)
+  'refused',    // 16
+];
+
+// US3 flow (<=10k): classic, no 'debt' step (debt already done), no optin_catchup
+const STEPS_US3 = [
+  'debt',
+  'email', 'consents', 'family', 'housing_classic', 'pro',
+  'identity', 'birthplace', 'nationality', 'phone',
+  'confirm', 'address', 'bank', 'income', 'expenses_classic',
+  'refused',
+];
+
+let STEPS = STEPS_US2;
+let currentStep = 0;
+
+const PROGRESS_US2 = [5,11,17,23,29,35,41,47,53,59,65,71,77,83,89,94,100];
+const PROGRESS_US3 = [5,11,17,23,29,35,41,47,53,59,65,71,77,83,89,100];
+
+// ═══════════════════════════════════════════
+// LANDING
+// ═══════════════════════════════════════════
+function startFunnel() {
+  const proj = document.getElementById('landing-project').value;
+  if (proj !== 'rachat') {
+    document.getElementById('landing-project').value = 'rachat';
+    alert('Pour ce prototype, sélectionnez « Rachat de crédits ».');
+    return;
+  }
+  document.getElementById('page-landing').style.display = 'none';
+  document.getElementById('page-funnel').classList.add('active');
+  STEPS = STEPS_US2;
+  currentStep = 0;
+  renderStep(0);
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function nextStep() {
+  // After debt step: set routing
+  if (STEPS[currentStep] === 'debt') {
+    S.routing = S.totalRequested > 10000 ? 'us2' : 'us3';
+    if (S.routing === 'us3') {
+      STEPS = STEPS_US3;
+      currentStep = 1; // skip to email, debt already done
+    } else {
+      STEPS = STEPS_US2;
+      currentStep = 1;
+    }
+    renderStep(currentStep);
+    return;
+  }
+  // Before optin_catchup: check if partners consent given
+  if (STEPS[currentStep] === 'expenses' || STEPS[currentStep] === 'expenses_classic') {
+    if (S.routing === 'us2' && !S.consents.partners) {
+      currentStep = STEPS.indexOf('optin_catchup');
+      renderStep(currentStep);
+      return;
+    }
+  }
+  if (currentStep < STEPS.length - 1) {
+    currentStep++;
+    renderStep(currentStep);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) { currentStep--; renderStep(currentStep); }
+  else { document.getElementById('page-funnel').classList.remove('active'); document.getElementById('page-landing').style.display = 'flex'; }
+}
+
+function goToStep(n) { currentStep = n; renderStep(n); }
+
+// ═══════════════════════════════════════════
+// RENDER DISPATCHER
+// ═══════════════════════════════════════════
+function renderStep(idx) {
+  const prog = S.routing === 'us3' ? PROGRESS_US3 : PROGRESS_US2;
+  document.getElementById('pfill').style.width = (prog[idx] || 5) + '%';
+
+  const content = document.getElementById('step-content');
+  const footer = document.getElementById('funnel-footer');
+  const cta = document.getElementById('main-cta');
+  cta.disabled = false;
+  cta.innerHTML = 'Continuer →';
+  footer.style.display = '';
+
+  const step = STEPS[idx];
+  switch(step) {
+    case 'debt':           renderDebt(content, cta); break;
+    case 'email':          renderEmail(content, cta); break;
+    case 'consents':       renderConsents(content, cta); break;
+    case 'family':         renderFamily(content, cta); break;
+    case 'housing':        renderHousing(content, cta, true); break;
+    case 'housing_classic':renderHousing(content, cta, false); break;
+    case 'pro':            renderPro(content, cta); break;
+    case 'identity':       renderIdentity(content, cta); break;
+    case 'birthplace':     renderBirthplace(content, cta); break;
+    case 'nationality':    renderNationality(content, cta); break;
+    case 'phone':          renderPhone(content, cta); break;
+    case 'confirm':        renderConfirm(content, cta); break;
+    case 'address':        renderAddress(content, cta); break;
+    case 'bank':           renderBank(content, cta); break;
+    case 'income':         renderIncome(content, cta); break;
+    case 'expenses':       renderExpenses(content, cta, true); break;
+    case 'expenses_classic':renderExpenses(content, cta, false); break;
+    case 'optin_catchup':  renderOptinCatchup(content, cta); break;
+    case 'refused':        renderRefused(content, cta, footer); break;
+  }
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════
+// LEFT PANEL HELPERS
+// ═══════════════════════════════════════════
+function setLeft(html) { document.getElementById('left-panel').innerHTML = html; }
+function routingStrip() {
+  if (!S.routing) return '';
+  if (S.routing === 'us2') return `<div class="routing-strip us2">🔀 Parcours <b>Rachat &gt; 10 000 €</b> — US 2 <span class="new-badge">✦ NOUVEAU</span></div>`;
+  return `<div class="routing-strip us3">🔀 Parcours <b>Rachat ≤ 10 000 €</b> — US 3 (classique)</div>`;
+}
+function leftTp() {
+  return `<div class="tp-panel"><div class="tp-stars">★★★★★</div><div style="display:flex;align-items:baseline;gap:8px;margin:4px 0;"><span class="tp-score">4.7</span><span style="font-size:13px;color:var(--muted);">TrustScore</span></div><div style="font-size:12px;color:var(--muted);">77 492 avis sur Trustpilot</div><div class="tp-review"><div class="tp-review-title">✅ Montage d'un dossier en ligne t…</div><div class="tp-review-body">Montage d'un dossier en ligne très facile.</div><div class="tp-review-author">PERCHEY · Il y a 4 heures</div></div></div>`;
+}
+function leftSec() {
+  return `<div class="left-illustration">💡</div><div class="left-title">Vos données sont en sécurité</div><div class="left-body"><p>🏛 Agréés par la <b>Banque de France</b></p><br><p>🛡 Régis par la loi RGPD</p><br><p>🛒 Données utilisées <b>uniquement pour votre demande</b></p></div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 0 – DEBT (US1) ✦ NOUVEAU
+// ═══════════════════════════════════════════
+function renderDebt(content, cta) {
+  setLeft(`<div class="new-left-banner">✦ NOUVELLE ÉTAPE</div>
+    <div class="left-illustration">💳</div>
+    <div class="left-title">Listez tous vos crédits en cours</div>
+    <div class="left-body">Indiquez <b>tous</b> vos crédits à la consommation et crédits immobiliers actuellement en cours. Le montant total calculé déterminera votre parcours et sera utilisé dans la suite de votre demande.</div>
+    <div class="left-badges">
+      <div class="badge"><span class="badge-icon">⚡</span>Réponse instantanée</div>
+      <div class="badge"><span class="badge-icon">💻</span>100% en ligne</div>
+      <div class="badge"><span class="badge-icon">👥</span>+1M clients</div>
+      <div class="badge"><span class="badge-icon">⭐</span>4.9 Appstore</div>
+    </div>`);
+
+  content.innerHTML = `<div class="step-anim">
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Vos crédits en cours <span class="new-badge">✦ NOUVEAU</span></div>
+    <p class="step-subtitle">Listez l'ensemble de vos crédits en cours — crédits à la consommation et crédits immobiliers. Ces informations nous permettent de calculer votre montant total et de vous orienter vers la meilleure solution.</p>
+
+    <!-- SECTION 1: CONSO -->
+    <div class="section-head">Crédits à la consommation</div>
+    <div class="field">
+      <label>Combien de crédits à la consommation avez-vous actuellement en cours ?</label>
+      <select class="f-select" id="consumerCountSel" onchange="onConsumerCountChange()">
+        <option value="">— Sélectionner —</option>
+        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}">${n} crédit${n>1?'s':''}</option>`).join('')}
+        <option value="bulk">+10 crédits</option>
+      </select>
+    </div>
+    <div id="consumerDetailList"></div>
+    <div id="consumerBulkSection" class="hidden">
+      <div class="info-banner">ℹ️ Vous avez plus de 10 crédits — renseignez les montants globaux</div>
+      <div class="field-row c2">
+        <div class="field">
+          <label>Total mensualités (€)</label>
+          <div class="input-wrap"><input type="number" class="f-input" id="consumerBulkMonthly" placeholder="0" style="padding-right:30px" oninput="S.consumerBulkMonthly=this.value;computeDebt()"><span class="input-suffix">€</span></div>
+        </div>
+        <div class="field">
+          <label>Total capital restant dû (€)</label>
+          <div class="input-wrap"><input type="number" class="f-input" id="consumerBulkCapital" placeholder="0" style="padding-right:30px" oninput="S.consumerBulkCapital=this.value;computeDebt()"><span class="input-suffix">€</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: IMMO -->
+    <div class="section-head">Crédits immobiliers <span class="new-badge">✦ NOUVEAU</span></div>
+    <div class="field">
+      <label>Avez-vous des crédits immobiliers actuellement en cours ?</label>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="mortgageNo" onclick="setMortgage(false)">Non</button>
+        <button class="toggle-btn" id="mortgageYes" onclick="setMortgage(true)">Oui</button>
+      </div>
+    </div>
+    <div id="mortgageSection" class="hidden">
+      <div class="field">
+        <label>Combien de crédits immobiliers ?</label>
+        <select class="f-select" id="mortgageCountSel" onchange="onMortgageCountChange()">
+          <option value="">— Sélectionner —</option>
+          ${[1,2,3,4,5].map(n=>`<option value="${n}">${n} crédit${n>1?'s':''}</option>`).join('')}
+        </select>
+      </div>
+      <div id="mortgageList"></div>
+      <div id="mortgagePropertySection" class="hidden">
+        <div class="field">
+          <label>Valeur estimée du bien (€) <span class="new-badge" style="font-size:9px">✦ NOUVEAU</span></label>
+          <div class="input-wrap"><input type="number" class="f-input" id="propertyValueInput" placeholder="0" style="padding-right:30px" oninput="S.propertyValue=this.value;computeDebt()"><span class="input-suffix">€</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:5px;">Valeur de marché actuelle du bien. Partagée entre tous les crédits immobiliers si plusieurs.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ADDITIONNEL -->
+    <div class="section-head" id="additionalHead" style="display:none">Montant additionnel</div>
+    <div id="additionalSection" class="hidden">
+      <div class="field">
+        <label>Souhaitez-vous emprunter un montant additionnel ?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="addNo" onclick="setAdditional(false)">Non</button>
+          <button class="toggle-btn" id="addYes" onclick="setAdditional(true)">Oui</button>
+        </div>
+      </div>
+      <div class="field hidden" id="addAmountField">
+        <label>Montant de trésorerie supplémentaire (€)</label>
+        <div class="input-wrap"><input type="number" class="f-input" id="addAmountInput" placeholder="0" style="padding-right:30px" oninput="S.additionalAmount=parseFloat(this.value)||0;computeDebt()"><span class="input-suffix">€</span></div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: RECAP -->
+    <div class="summary-box hidden" id="debtSummary">
+      <div class="summary-box-title">Récapitulatif de votre demande</div>
+      <div id="sumBody"></div>
+    </div>
+
+    <div class="route-banner us2" id="bannerUS2">🚀 Montant total <b>&gt; 10 000 €</b> — Parcours <b>US 2</b> (parcours enrichi)</div>
+    <div class="route-banner us3" id="bannerUS3">⚡ Montant total <b>≤ 10 000 €</b> — Parcours <b>US 3</b> (parcours classique, montant reporté)</div>
+
+    <details class="tracking-details">
+      <summary>🔍 Tracking payload (debt_consolidation)</summary>
+      <pre id="debtTracking">{}</pre>
+    </details>
+  </div>`;
+  cta.disabled = true;
+}
+
+// Consumer credit list
+let wantsAdditional = null;
+let hasMortgage = null;
+
+function onConsumerCountChange() {
+  const val = document.getElementById('consumerCountSel').value;
+  const list = document.getElementById('consumerDetailList');
+  const bulk = document.getElementById('consumerBulkSection');
+  const addSection = document.getElementById('additionalSection');
+  const addHead = document.getElementById('additionalHead');
+  list.innerHTML = '';
+  bulk.classList.add('hidden');
+
+  if (val === 'bulk') {
+    S.consumerMode = 'bulk';
+    bulk.classList.remove('hidden');
+    S.consumerCredits = [];
+  } else if (val) {
+    S.consumerMode = 'detail';
+    const n = parseInt(val);
+    S.consumerCount = n;
+    S.consumerCredits = Array(n).fill(null).map(() => ({ type:'', institution:'', monthly:0, capital:0 }));
+    for (let i = 0; i < n; i++) list.appendChild(buildConsumerCard(i));
+  }
+  // Show additional section once consumer count selected
+  if (val) {
+    addSection.classList.remove('hidden');
+    addHead.style.display = '';
+  }
+  computeDebt();
+}
+
+function buildConsumerCard(i) {
+  const d = document.createElement('div');
+  d.className = 'credit-card';
+  d.id = `cc-${i}`;
+  d.innerHTML = `
+    <div class="credit-card-head">
+      <div class="credit-num">${i+1}</div>
+      <div class="credit-card-label">Crédit conso ${i+1}</div>
+    </div>
+    <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="field" style="margin:0">
+        <label>Type de prêt</label>
+        <select class="f-select" id="cc-type-${i}" onchange="S.consumerCredits[${i}].type=this.value;computeDebt()">
+          <option value="">— Type —</option>
+          <option value="AUTO_MOTO">🚗 Auto / Moto</option>
+          <option value="PERSONAL_LOAN">💳 Prêt personnel</option>
+          <option value="REVOLVING_CREDIT">🔄 Renouvelable</option>
+          <option value="WORK">🏗 Travaux</option>
+          <option value="EMPLOYER_LOAN">🏢 Prêt employeur</option>
+          <option value="OTHER">📦 Autre</option>
+        </select>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Établissement prêteur</label>
+        <select class="f-select" id="cc-inst-${i}" onchange="S.consumerCredits[${i}].institution=this.value;computeDebt()">
+          <option value="">— Établissement —</option>
+          <option value="LA_BANQUE_POSTALE">La Banque Postale</option>
+          <option value="CAISSE_DEPARGNE">Caisse d'Épargne</option>
+          <option value="CETELEM">Cetelem</option>
+          <option value="COFIDIS">Cofidis</option>
+          <option value="CREDIT_AGRICOLE">Crédit Agricole</option>
+          <option value="FRANFINANCE">Franfinance</option>
+          <option value="ONEY_BANK">Oney Bank</option>
+          <option value="SOFINCO">Sofinco</option>
+          <option value="CARREFOUR_BANQUE">Carrefour Banque</option>
+          <option value="YOUNITED_CREDIT">Younited Credit</option>
+          <option value="OTHER">Autre</option>
+        </select>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Mensualité (€)</label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" id="cc-monthly-${i}" placeholder="0" style="padding-right:28px" oninput="S.consumerCredits[${i}].monthly=parseFloat(this.value)||0;computeDebt()">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Capital restant dû (€)</label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" id="cc-capital-${i}" placeholder="0" style="padding-right:28px" oninput="S.consumerCredits[${i}].capital=parseFloat(this.value)||0;computeDebt()">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+    </div>`;
+  return d;
+}
+
+function setMortgage(val) {
+  hasMortgage = val;
+  S.hasMortgage = val;
+  document.getElementById('mortgageYes').classList.toggle('active', val);
+  document.getElementById('mortgageNo').classList.toggle('active', !val);
+  document.getElementById('mortgageSection').classList.toggle('hidden', !val);
+  if (!val) { S.mortgageCredits = []; S.propertyValue = ''; S.mortgageCount = 0; }
+  computeDebt();
+}
+
+function onMortgageCountChange() {
+  const n = parseInt(document.getElementById('mortgageCountSel').value) || 0;
+  S.mortgageCount = n;
+  S.mortgageCredits = Array(n).fill(null).map(() => ({ monthly:0, capital:0 }));
+  const list = document.getElementById('mortgageList');
+  list.innerHTML = '';
+  for (let i = 0; i < n; i++) list.appendChild(buildMortgageCard(i));
+  document.getElementById('mortgagePropertySection').classList.toggle('hidden', n === 0);
+  computeDebt();
+}
+
+function buildMortgageCard(i) {
+  const d = document.createElement('div');
+  d.className = 'credit-card';
+  d.innerHTML = `
+    <div class="credit-card-head">
+      <div class="credit-num green">${i+1}</div>
+      <div class="credit-card-label">Crédit immobilier ${i+1}</div>
+      <span style="margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;">MORTGAGE</span>
+    </div>
+    <div class="credit-card-body c2">
+      <div class="field" style="margin:0">
+        <label>Mensualité (€)</label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" id="mc-monthly-${i}" placeholder="0" style="padding-right:28px" oninput="S.mortgageCredits[${i}].monthly=parseFloat(this.value)||0;computeDebt()">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Capital restant dû (€)</label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" id="mc-capital-${i}" placeholder="0" style="padding-right:28px" oninput="S.mortgageCredits[${i}].capital=parseFloat(this.value)||0;computeDebt()">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+    </div>`;
+  return d;
+}
+
+function setAdditional(val) {
+  wantsAdditional = val;
+  S.wantsAdditional = val;
+  document.getElementById('addYes').classList.toggle('active', val);
+  document.getElementById('addNo').classList.toggle('active', !val);
+  document.getElementById('addAmountField').classList.toggle('hidden', !val);
+  if (!val) { S.additionalAmount = 0; const el = document.getElementById('addAmountInput'); if(el) el.value = ''; }
+  computeDebt();
+}
+
+function computeDebt() {
+  const sel = document.getElementById('consumerCountSel')?.value;
+  if (!sel) { document.getElementById('main-cta').disabled = true; return; }
+
+  // Consumer totals
+  let consMonthly = 0, consCapital = 0;
+  if (S.consumerMode === 'bulk') {
+    consMonthly = parseFloat(S.consumerBulkMonthly) || 0;
+    consCapital = parseFloat(S.consumerBulkCapital) || 0;
+  } else {
+    S.consumerCredits.forEach(c => { consMonthly += c.monthly; consCapital += c.capital; });
+  }
+
+  // Mortgage totals
+  let mortMonthly = 0, mortCapital = 0;
+  if (S.hasMortgage) {
+    S.mortgageCredits.forEach(c => { mortMonthly += c.monthly; mortCapital += c.capital; });
+  }
+
+  const addAmt = S.wantsAdditional ? S.additionalAmount : 0;
+  const totalMonthly = consMonthly + mortMonthly;
+  const totalCapital = consCapital + mortCapital;
+  const totalRequested = totalCapital + addAmt;
+  S.totalRequested = totalRequested;
+
+  // Show summary
+  const summary = document.getElementById('debtSummary');
+  if (totalCapital > 0 || (S.consumerMode === 'bulk' && consCapital > 0)) {
+    summary.classList.remove('hidden');
+    let html = '';
+    // Consumer
+    html += `<div class="sum-section"><div class="sum-section-label">Crédits à la consommation</div>`;
+    html += `<div class="sum-row"><span>Mensualités conso</span><span class="sum-val">${fmt(consMonthly)} €/mois</span></div>`;
+    html += `<div class="sum-row"><span>Capital restant dû</span><span class="sum-val">${fmt(consCapital)} €</span></div></div>`;
+    // Mortgage
+    if (S.hasMortgage && mortCapital > 0) {
+      html += `<div class="sum-divider"></div>`;
+      html += `<div class="sum-section"><div class="sum-section-label">Crédits immobiliers</div>`;
+      html += `<div class="sum-row"><span>Mensualités immo</span><span class="sum-val">${fmt(mortMonthly)} €/mois</span></div>`;
+      html += `<div class="sum-row"><span>Capital restant dû</span><span class="sum-val">${fmt(mortCapital)} €</span></div></div>`;
+    }
+    // Additional
+    if (S.wantsAdditional && addAmt > 0) {
+      html += `<div class="sum-divider"></div>`;
+      html += `<div class="sum-row"><span>Trésorerie supplémentaire</span><span class="sum-val">${fmt(addAmt)} €</span></div>`;
+    }
+    html += `<div class="sum-divider"></div>`;
+    html += `<div class="sum-row"><span>Total mensualités</span><span class="sum-val">${fmt(totalMonthly)} €/mois</span></div>`;
+    html += `<div class="sum-row total"><span>Montant total demandé</span><span class="sum-val">${fmt(totalRequested)} €</span></div>`;
+    document.getElementById('sumBody').innerHTML = html;
+  } else {
+    summary.classList.add('hidden');
+  }
+
+  // Routing banners
+  const ready = S.wantsAdditional !== null && (totalCapital > 0 || (S.consumerMode === 'bulk' && consCapital > 0));
+  document.getElementById('bannerUS2').classList.toggle('show', ready && totalRequested > 10000);
+  document.getElementById('bannerUS3').classList.toggle('show', ready && totalRequested <= 10000 && totalRequested > 0);
+  document.getElementById('main-cta').disabled = !ready;
+
+  // Tracking
+  const payload = {
+    step_page: 'debt_consolidation', step_name: 'debt_consolidation',
+    evaluated_properties: {
+      consumer_credit_count: S.consumerMode === 'bulk' ? '+10' : S.consumerCount,
+      consumer_credit_more_than_ten: S.consumerMode === 'bulk',
+      mortgage_credit_present: !!S.hasMortgage,
+      mortgage_credit_count: S.mortgageCount,
+      mortgage_credit_more_than_ten: false,
+      total_consumer_monthly_payment_amount: consMonthly,
+      total_consumer_outstanding_debt_amount: consCapital,
+      total_mortgage_monthly_payment_amount: mortMonthly,
+      total_mortgage_outstanding_debt_amount: mortCapital,
+      requested_additional_liquidity_amount: addAmt,
+      total_monthly_payment_amount: totalMonthly,
+      total_requested_amount: totalRequested
+    }
+  };
+  const el = document.getElementById('debtTracking');
+  if(el) el.textContent = JSON.stringify(payload, null, 2);
+}
+
+// ═══════════════════════════════════════════
+// STEP 1 – EMAIL
+// ═══════════════════════════════════════════
+function renderEmail(content, cta) {
+  setLeft(leftTp());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Consultez nos offres en 5 min !</div>
+    <p class="step-subtitle">Saisissez votre email afin de <b>recevoir vos offres</b> et de <b>reprendre votre demande</b> plus tard :</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" class="f-input" placeholder="votre@email.fr" value="${S.email}" oninput="S.email=this.value">
+    </div>
+    <div class="left-badges" style="justify-content:flex-start;flex-wrap:wrap;gap:10px;margin-top:24px;">
+      <div class="badge" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;">⚡ Réponse instantanée</div>
+      <div class="badge" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;">💻 100% en ligne</div>
+      <div class="badge" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;">👥 +1 million de clients</div>
+      <div class="badge" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;">⭐ 4.9 sur l'Appstore</div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 2 – CONSENTS
+// ═══════════════════════════════════════════
+function renderConsents(content, cta) {
+  setLeft(leftSec());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre consentement</div>
+    <div style="margin-top:20px;">
+      <div class="checkbox-row accept-all" id="cb-all" onclick="toggleCb('all')">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text" style="font-weight:700;">J'accepte tous les consentements de communication</div>
+      </div>
+      <div class="checkbox-row" id="cb-younited" onclick="toggleCb('younited')">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text">J'accepte de recevoir des offres commerciales de Younited. <a href="#">Plus d'infos</a></div>
+      </div>
+      <div class="checkbox-row" id="cb-partners" onclick="toggleCb('partners')">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text">J'accepte que mes données soient transmises à des <a href="#">partenaires</a> pour des offres personnalisées. <a href="#">Plus d'infos</a></div>
+      </div>
+      <div class="checkbox-row" id="cb-refuse" onclick="toggleCb('refuse')">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text">Je refuse de recevoir des communications commerciales de Younited et la transmission à des partenaires</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;">Pour en savoir plus sur la manière dont Younited traite vos données, consultez notre <a href="#" style="color:var(--purple);">Politique de Confidentialité</a>.</p>
+  </div>`;
+}
+function toggleCb(key) {
+  if (key === 'all') {
+    const val = !S.consents.younited;
+    ['younited','partners'].forEach(k => { S.consents[k] = val; document.getElementById('cb-'+k)?.classList.toggle('checked', val); });
+    document.getElementById('cb-all').classList.toggle('checked', val);
+  } else {
+    S.consents[key] = !S.consents[key];
+    document.getElementById('cb-'+key).classList.toggle('checked', S.consents[key]);
+  }
+}
+
+// ═══════════════════════════════════════════
+// STEP 3 – FAMILY
+// ═══════════════════════════════════════════
+function renderFamily(content, cta) {
+  setLeft(`<div class="left-illustration">💜</div><div class="left-title">Votre situation familiale</div><div class="left-body">Ces informations nous permettent d'adapter votre offre à votre situation personnelle.</div>`);
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre situation familiale</div>
+    <div class="field"><label>Situation familiale</label>
+      <select class="f-select" onchange="S.family.situation=this.value">
+        <option value="">Votre situation familiale</option>
+        <option value="single">Célibataire</option><option value="married">Marié(e)</option>
+        <option value="pacsed">Pacsé(e)</option><option value="union">Union libre</option>
+        <option value="divorced">Divorcé(e)</option><option value="widowed">Veuf / Veuve</option>
+      </select>
+    </div>
+    <div class="field"><label>Nombre d'enfants</label>
+      <select class="f-select" onchange="S.family.children=this.value">
+        <option value="0">Je n'ai pas d'enfant</option>
+        <option value="1">1 enfant</option><option value="2">2 enfants</option>
+        <option value="3">3 enfants</option><option value="4">4 ou plus</option>
+      </select>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 4 – HOUSING (isNew = US2 enriched)
+// ═══════════════════════════════════════════
+function renderHousing(content, cta, isNew) {
+  const hasMortgageCredits = S.hasMortgage && S.mortgageCount > 0;
+  setLeft(`
+    <div class="left-illustration">🏠</div>
+    <div class="left-title">Votre logement</div>
+    <div class="left-body">
+      ${isNew ? '<b>✦ Enrichi :</b> si vous êtes propriétaire, indiquez la valeur de votre bien et le capital restant à rembourser.<br><br>' : ''}
+      Votre situation de logement est un critère clé pour l'étude de votre dossier.
+    </div>`);
+
+  const lockedNote = hasMortgageCredits && isNew
+    ? `<div class="warn-banner">⚠️ Vous avez déclaré des crédits immobiliers — votre statut est automatiquement positionné sur <b>"Propriétaire avec crédit immobilier"</b>.</div>`
+    : '';
+
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre logement ${isNew ? '<span class="new-badge">✦ NOUVEAU</span>' : ''}</div>
+    ${lockedNote}
+    <div class="field">
+      <label>Votre situation de logement</label>
+      <select class="f-select ${hasMortgageCredits && isNew ? 'blocked' : ''}" id="housingType" onchange="updateHousingFields(${isNew})" ${hasMortgageCredits && isNew ? 'disabled' : ''}>
+        <option value="">Votre situation de logement</option>
+        <option value="owner_with_mortgage" ${hasMortgageCredits && isNew ? 'selected' : ''}>Propriétaire (avec crédit immobilier en cours)</option>
+        <option value="owner_no_mortgage">Propriétaire (sans crédit immobilier)</option>
+        <option value="tenant">Locataire</option>
+        <option value="free">Logé(e) à titre gratuit</option>
+        <option value="other">Autre</option>
+      </select>
+    </div>
+    <div class="field-row c2">
+      <div class="field" style="margin:0"><label>Depuis — Mois</label><input type="number" class="f-input" placeholder="Mois" min="1" max="12" oninput="S.housing.since_month=this.value"></div>
+      <div class="field" style="margin:0"><label>Depuis — Année</label><input type="number" class="f-input" placeholder="Année" oninput="S.housing.since_year=this.value"></div>
+    </div>
+    ${isNew && hasMortgageCredits ? `
+    <div class="success-banner">✅ Valeur du bien et capital restant dû déjà renseignés à l'étape précédente.</div>` : ''}
+  </div>`;
+  if (hasMortgageCredits && isNew) { S.housing.type = 'owner_with_mortgage'; }
+}
+
+function updateHousingFields(isNew) {
+  const val = document.getElementById('housingType')?.value;
+  if (!isNew) return;
+  const prop = document.getElementById('housing-property-fields');
+  const mort = document.getElementById('housing-mortgage-fields');
+  if (prop) prop.classList.toggle('hidden', !val.startsWith('owner'));
+  if (mort) mort.classList.toggle('hidden', val !== 'owner_with_mortgage');
+  S.housing.type = val;
+}
+
+// ═══════════════════════════════════════════
+// STEP 5 – PRO
+// ═══════════════════════════════════════════
+function renderPro(content, cta) {
+  setLeft(`<div class="left-illustration">💼</div><div class="left-title">Votre situation professionnelle</div><div class="left-body">Ces informations nous permettent d'évaluer votre capacité de remboursement.</div>`);
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre situation professionnelle</div>
+    <div class="field"><label>Situation</label>
+      <select class="f-select" onchange="S.pro.situation=this.value">
+        <option value="">Votre situation professionnelle</option>
+        <option value="cdi">CDI</option><option value="cdd">CDD</option>
+        <option value="interim">Intérimaire</option><option value="independant">Indépendant / Auto-entrepreneur</option>
+        <option value="fonctionnaire">Fonctionnaire</option><option value="retraite">Retraité(e)</option>
+        <option value="sans_emploi">Sans emploi</option>
+      </select>
+    </div>
+    <div class="field"><label>Secteur d'activité</label>
+      <div class="radio-group">
+        <div class="radio-card" id="sp-prive" onclick="S.pro.sector='prive';document.getElementById('sp-prive').classList.add('selected');document.getElementById('sp-public').classList.remove('selected')"><div class="radio-dot"></div>Privé</div>
+        <div class="radio-card" id="sp-public" onclick="S.pro.sector='public';document.getElementById('sp-public').classList.add('selected');document.getElementById('sp-prive').classList.remove('selected')"><div class="radio-dot"></div>Public</div>
+      </div>
+    </div>
+    <div class="field"><label>Profession</label>
+      <select class="f-select" onchange="S.pro.profession=this.value">
+        <option value="">— Sélectionner —</option>
+        <option>Cadre</option><option>Employé(e) de bureau</option><option>Ouvrier(e)</option>
+        <option>Commerçant(e)</option><option>Artisan</option><option>Profession libérale</option>
+        <option>Salarié(e) agricole</option>
+      </select>
+    </div>
+    <div class="field"><label>Date d'entrée dans votre société (approximation)</label>
+      <div class="field-row c2">
+        <div class="field" style="margin:0"><input type="number" class="f-input" placeholder="Mois" min="1" max="12" oninput="S.pro.entry_month=this.value"></div>
+        <div class="field" style="margin:0"><input type="number" class="f-input" placeholder="Année" oninput="S.pro.entry_year=this.value"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 6 – IDENTITY
+// ═══════════════════════════════════════════
+function renderIdentity(content, cta) {
+  setLeft(leftSec());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre identité</div>
+    <p class="step-subtitle">Ces informations seront vérifiées, indiquez-les telles qu'inscrites sur vos <b>documents d'identité</b>.</p>
+    <div class="field"><label>Civilité</label>
+      <div class="radio-group">
+        <div class="radio-card" id="civ-mme" onclick="S.identity.civility='Madame';document.getElementById('civ-mme').classList.add('selected');document.getElementById('civ-mr').classList.remove('selected')"><div class="radio-dot"></div>Madame</div>
+        <div class="radio-card" id="civ-mr" onclick="S.identity.civility='Monsieur';document.getElementById('civ-mr').classList.add('selected');document.getElementById('civ-mme').classList.remove('selected')"><div class="radio-dot"></div>Monsieur</div>
+      </div>
+    </div>
+    <div class="field"><label>Prénom</label><input type="text" class="f-input" placeholder="Prénom" oninput="S.identity.firstname=this.value"></div>
+    <div class="field"><label>Nom de famille</label><input type="text" class="f-input" placeholder="Nom de famille" oninput="S.identity.lastname=this.value"></div>
+    <div class="field"><label>Nom de naissance (si différent)</label><input type="text" class="f-input" placeholder="Nom de naissance" oninput="S.identity.birthname=this.value"></div>
+    <div class="field"><label>Date de naissance</label>
+      <div class="field-row c3">
+        <div class="field" style="margin:0"><input type="number" class="f-input" placeholder="Jour" oninput="S.identity.birth_day=this.value"></div>
+        <div class="field" style="margin:0"><input type="number" class="f-input" placeholder="Mois" oninput="S.identity.birth_month=this.value"></div>
+        <div class="field" style="margin:0"><input type="number" class="f-input" placeholder="Année" oninput="S.identity.birth_year=this.value"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 7 – BIRTHPLACE
+// ═══════════════════════════════════════════
+function renderBirthplace(content, cta) {
+  setLeft(leftSec());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre lieu de naissance</div>
+    <p class="step-subtitle">Telles qu'inscrites sur vos <b>documents d'identité</b>.</p>
+    <div class="field"><label>Pays de naissance</label>
+      <select class="f-select" onchange="S.birthplace.country=this.value">
+        <option value="FRANCE">FRANCE</option><option value="BELGIQUE">BELGIQUE</option>
+        <option value="ESPAGNE">ESPAGNE</option><option value="ITALIE">ITALIE</option>
+        <option value="PORTUGAL">PORTUGAL</option><option value="AUTRE">Autre</option>
+      </select>
+    </div>
+    <div class="field"><label>Ville de naissance</label><input type="text" class="f-input" placeholder="Ville · Département" oninput="S.birthplace.city=this.value"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 8 – NATIONALITY
+// ═══════════════════════════════════════════
+function renderNationality(content, cta) {
+  setLeft(leftSec());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre nationalité</div>
+    <div class="field"><label>Nationalité</label>
+      <select class="f-select" onchange="S.nationality=this.value">
+        <option value="FRANCE">FRANCE</option><option value="BELGIQUE">BELGIQUE</option>
+        <option value="ESPAGNE">ESPAGNE</option><option value="ITALIE">ITALIE</option>
+        <option value="PORTUGAL">PORTUGAL</option><option value="UE">UE (autre)</option><option value="AUTRE">Autre</option>
+      </select>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 9 – PHONE
+// ═══════════════════════════════════════════
+function renderPhone(content, cta) {
+  setLeft(leftTp());
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre numéro de téléphone</div>
+    <div class="field"><label>Numéro de téléphone</label><input type="tel" class="f-input" placeholder="+33 6 00 00 00 00" oninput="S.phone=this.value"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 10 – CONFIRM
+// ═══════════════════════════════════════════
+function renderConfirm(content, cta) {
+  setLeft(leftTp());
+  const id = S.identity;
+  const dob = [id.birth_day, id.birth_month, id.birth_year].filter(Boolean).join('/') || '—';
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Ces informations sont-elles exactes ?</div>
+    <div class="info-banner">ℹ️ Une fois cette étape passée, vous ne pourrez plus modifier vos informations.</div>
+    <div class="recap-card">
+      <div class="recap-card-header"><div class="recap-card-title">E-mail</div><button class="recap-edit" onclick="goToStep(1)">Modifier</button></div>
+      <div class="recap-row"><div class="recap-label">Email</div><div class="recap-value">${S.email||'—'}</div></div>
+    </div>
+    <div class="recap-card">
+      <div class="recap-card-header"><div class="recap-card-title">Téléphone</div><button class="recap-edit" onclick="goToStep(9)">Modifier</button></div>
+      <div class="recap-row"><div class="recap-label">Numéro</div><div class="recap-value">${S.phone||'—'}</div></div>
+    </div>
+    <div class="recap-card">
+      <div class="recap-card-header"><div class="recap-card-title">Identité</div><button class="recap-edit" onclick="goToStep(6)">Modifier</button></div>
+      <div class="recap-row"><div class="recap-label">Civilité</div><div class="recap-value">${id.civility||'—'}</div></div>
+      <div class="recap-row"><div class="recap-label">Prénom</div><div class="recap-value">${id.firstname||'—'}</div></div>
+      <div class="recap-row"><div class="recap-label">Nom</div><div class="recap-value">${id.lastname||'—'}</div></div>
+      <div class="recap-row"><div class="recap-label">Date de naissance</div><div class="recap-value">${dob}</div></div>
+    </div>
+  </div>`;
+  cta.innerHTML = 'Valider mes informations →';
+}
+
+// ═══════════════════════════════════════════
+// STEP 11 – ADDRESS
+// ═══════════════════════════════════════════
+function renderAddress(content, cta) {
+  setLeft(`<div class="left-illustration">🏡</div><div class="left-title">Votre adresse postale</div><div class="left-body">Obligatoire pour éditer votre contrat de crédit.</div>`);
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre adresse postale</div>
+    <div class="info-banner">✅ Entrez votre adresse telle qu'elle apparaît sur votre justificatif de domicile</div>
+    <div class="field"><label>Pays de résidence</label><select class="f-select"><option>FRANCE</option><option>BELGIQUE</option></select></div>
+    <div class="field"><label>Numéro de rue</label><input type="text" class="f-input" placeholder="Numéro" oninput="S.address.street_num=this.value"></div>
+    <div class="field"><label>Adresse</label><input type="text" class="f-input" placeholder="Adresse" oninput="S.address.street=this.value"></div>
+    <div class="field"><label>Supplément d'adresse</label><input type="text" class="f-input" placeholder="Complément" oninput="S.address.complement=this.value"></div>
+    <div class="field-row c2">
+      <div class="field" style="margin:0"><label>Code postal</label><input type="text" class="f-input" placeholder="Code postal" oninput="S.address.zip=this.value"></div>
+      <div class="field" style="margin:0"><label>Ville</label><input type="text" class="f-input" placeholder="Ville" oninput="S.address.city=this.value"></div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 12 – BANK
+// ═══════════════════════════════════════════
+function renderBank(content, cta) {
+  setLeft(`<div class="left-illustration">🏦</div><div class="left-title">Votre banque</div><div class="left-body">La banque sur laquelle sont domiciliées <b>vos revenus</b>.</div>`);
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Votre banque</div>
+    <div class="info-banner">ℹ️ Sélectionnez la banque sur laquelle sont domiciliés vos revenus</div>
+    <div class="field"><label>Banque de prélèvement</label>
+      <select class="f-select" onchange="S.bank.name=this.value">
+        <option value="">Choisissez votre banque</option>
+        <option>BNP Paribas</option><option>Crédit Agricole</option><option>Société Générale</option>
+        <option>LCL</option><option>Caisse d'Épargne</option><option>Banque Populaire</option>
+        <option>La Banque Postale</option><option>CIC</option><option>Crédit Mutuel</option>
+        <option>Boursorama</option><option>Fortuneo</option><option>Hello bank!</option><option>Autre</option>
+      </select>
+    </div>
+    <div class="field"><label>Année d'ouverture (approximation)</label><input type="number" class="f-input" placeholder="Ex: 2010" oninput="S.bank.year=this.value"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STEP 13 – INCOME
+// ═══════════════════════════════════════════
+function renderIncome(content, cta) {
+  setLeft(`<div class="left-illustration">💰</div><div class="left-title">Vos revenus</div><div class="left-body">Revenus mensuels nets avant impôts.</div>`);
+  const name = [S.identity.firstname, S.identity.lastname].filter(Boolean).join(' ') || 'Vous';
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Vos revenus</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="font-weight:700;">👤 ${name}</div>
+      <span style="font-size:12px;color:var(--warning);font-weight:700;">À compléter</span>
+    </div>
+    <div class="field"><label>Salaires, retraites (mensuel, net avant impôts)</label>
+      <div class="input-wrap"><input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.income.salary=this.value"><span class="input-suffix">€</span></div>
+    </div>
+    <div class="field"><label>Nombre de mois de paiement</label>
+      <div class="radio-group">
+        ${['12','13','14'].map(m=>`<div class="radio-card ${m==='12'?'selected':''}" id="mo-${m}" onclick="setMonths('${m}')"><div class="radio-dot ${m==='12'?'selected':''}"></div>${m}</div>`).join('')}
+      </div>
+    </div>
+    <div class="field"><label>Allocation logement</label>
+      <div class="input-wrap"><input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.income.housing_allowance=this.value"><span class="input-suffix">€</span></div>
+    </div>
+    <div class="field"><label>Autres revenus mensuels</label>
+      <div class="input-wrap"><input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.income.other=this.value"><span class="input-suffix">€</span></div>
+    </div>
+  </div>`;
+}
+function setMonths(m) {
+  S.income.months = m;
+  ['12','13','14'].forEach(v => { const el = document.getElementById('mo-'+v); if(el) el.classList.toggle('selected', v===m); });
+}
+
+// ═══════════════════════════════════════════
+// STEP 14 – EXPENSES (isNew = US2)
+// ═══════════════════════════════════════════
+function renderExpenses(content, cta, isNew) {
+  setLeft(leftTp());
+  const hasMortgageCredits = S.hasMortgage && S.mortgageCount > 0;
+  const isOwnerWithMortgage = S.housing.type === 'owner_with_mortgage' || hasMortgageCredits;
+
+  let notes = '';
+  if (isNew) {
+    notes = `<div class="info-banner" style="flex-direction:column;align-items:flex-start;gap:6px;">
+      <div style="font-weight:700;">ℹ️ Charges pré-remplies depuis l'étape précédente :</div>
+      <div>• Les crédits déclarés dans l'étape de rachat <b>ne sont pas redemandés ici</b> <span class="new-badge">✦ NOUVEAU</span></div>
+      ${isOwnerWithMortgage ? '<div>• Les mensualités de prêt immobilier <b>ne sont pas redemandées ici</b> (déjà déclarées) <span class="new-badge">✦ NOUVEAU</span></div>' : ''}
+    </div>`;
+  }
+
+  content.innerHTML = `<div class="step-anim">
+    ${routingStrip()}
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Autres charges en cours ${isNew ? '<span class="new-badge">✦ NOUVEAU</span>' : ''}</div>
+    ${notes}
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="font-weight:700;">🏠 Foyer</div>
+      <span style="font-size:12px;color:var(--warning);font-weight:700;">À compléter</span>
+    </div>
+    ${!isOwnerWithMortgage || !isNew ? `
+    <div class="field"><label>Mensualités crédits immobiliers (€/mois)</label>
+      <div class="input-wrap"><input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.expenses.other_credits_monthly=this.value"><span class="input-suffix">€</span></div>
+    </div>` : ''}
+    <div class="field"><label>Pension alimentaire versée</label>
+      <div class="input-wrap"><input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.expenses.alimony=this.value"><span class="input-suffix">€</span></div>
+    </div>
+    ${isNew ? '' : `
+    <div class="field"><label>Combien d'autres crédits en cours avez-vous ?</label>
+      <select class="f-select" oninput="S.expenses.other_credits=this.value">
+        <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4 ou plus</option>
+      </select>
+    </div>`}
+  </div>`;
+  cta.innerHTML = 'Finaliser ma demande →';
+}
+
+// ═══════════════════════════════════════════
+// STEP 15 – OPTIN CATCH-UP ✦ NOUVEAU
+// ═══════════════════════════════════════════
+function renderOptinCatchup(content, cta) {
+  setLeft(`<div class="new-left-banner">✦ NOUVELLE ÉTAPE</div>
+    <div class="left-illustration">🤝</div>
+    <div class="left-title">Une dernière étape avant vos offres</div>
+    <div class="left-body">En autorisant le partage de vos données avec nos partenaires, vous maximisez vos chances d'obtenir une solution de rachat adaptée.</div>`);
+  content.innerHTML = `<div class="step-anim">
+    <div class="routing-strip us2">🔀 Parcours <b>Rachat &gt; 10 000 €</b> — US 2 <span class="new-badge">✦ NOUVEAU</span></div>
+    <button class="back-btn" onclick="prevStep()">← Précédent</button>
+    <div class="step-title">Consentement partenaires <span class="new-badge">✦ NOUVEAU</span></div>
+    <p class="step-subtitle">Vous n'avez pas encore accepté le partage avec nos partenaires. C'est cette étape qui nous permet de vous trouver la meilleure solution de rachat.</p>
+    <div class="warn-banner">⚠️ Sans ce consentement, nous ne pourrons pas transmettre votre dossier à nos partenaires spécialisés en rachat de crédits.</div>
+    <div class="optin-card highlight">
+      <div class="optin-card-title"><span>🤝</span> Partage avec les partenaires <span class="new-badge">✦ NOUVEAU</span></div>
+      <div class="optin-card-body">J'accepte que mes données soient transmises à des partenaires pour recevoir des offres commerciales personnalisées de rachat de crédits.</div>
+      <div class="checkbox-row" id="catchup-cb" onclick="toggleCatchup()">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text" style="font-weight:600;">Oui, j'accepte le partage avec les partenaires</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.5;">Si vous refusez, votre dossier sera tout de même étudié en interne par Younited, mais les options de rachat via partenaires ne seront pas disponibles.</p>
+  </div>`;
+  cta.innerHTML = 'Continuer →';
+}
+function toggleCatchup() {
+  S.consents.partners = !S.consents.partners;
+  document.getElementById('catchup-cb').classList.toggle('checked', S.consents.partners);
+}
+
+// ═══════════════════════════════════════════
+// STEP 16 – REFUSED + OPTIN
+// ═══════════════════════════════════════════
+function renderRefused(content, cta, footer) {
+  setLeft(`<div class="left-illustration">💜</div><div class="left-title">Restez connecté(e)</div><div class="left-body">Même si votre demande n'a pas abouti, de nouvelles opportunités peuvent se présenter.</div>`);
+  footer.style.display = 'none';
+  content.innerHTML = `<div class="step-anim refused-wrap">
+    <div class="refused-icon">😔</div>
+    <div class="refused-title">Nous sommes navrés…</div>
+    <p class="refused-body">En raison de votre situation, nous ne sommes pas en mesure de donner suite à votre demande de rachat de crédits pour le moment.<br><br>Notre décision est basée sur une analyse automatisée de votre profil.</p>
+    <div class="optin-card">
+      <div class="optin-card-title">Restez informé(e) de nos offres</div>
+      <div class="optin-card-body">Acceptez de recevoir nos communications pour être averti(e) dès que votre situation vous permettra de bénéficier de nos services.</div>
+      <div class="checkbox-row" id="refused-optin" onclick="toggleRefusedOptin()">
+        <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+        <div class="checkbox-text">J'accepte de recevoir des offres personnalisées de Younited</div>
+      </div>
+    </div>
+    <button class="cta-btn" onclick="location.reload()">← Refaire une simulation</button>
+  </div>`;
+}
+function toggleRefusedOptin() {
+  S.optin_refused = !S.optin_refused;
+  document.getElementById('refused-optin').classList.toggle('checked', S.optin_refused);
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function fmt(n) { return new Intl.NumberFormat('fr-FR').format(Math.round(n)); }
+
+document.getElementById('page-landing').style.display = 'flex';
+document.getElementById('page-landing').style.flexDirection = 'column';
+</script>
+</body>
+</html>
