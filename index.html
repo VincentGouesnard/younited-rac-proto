@@ -906,7 +906,6 @@ function renderFamily(content, cta) {
 // STEP 4 – HOUSING (isNew = US2 enriched)
 // ═══════════════════════════════════════════
 function renderHousing(content, cta, isNew) {
-  const hasMortgageCredits = S.hasMortgage && S.mortgageCount > 0;
   setLeft(`
     <div class="left-illustration">🏠</div>
     <div class="left-title">Votre logement</div>
@@ -915,20 +914,15 @@ function renderHousing(content, cta, isNew) {
       Votre situation de logement est un critère clé pour l'étude de votre dossier.
     </div>`);
 
-  const lockedNote = hasMortgageCredits && isNew
-    ? `<div class="warn-banner">⚠️ Vous avez déclaré des crédits immobiliers — votre statut est automatiquement positionné sur <b>"Propriétaire avec crédit immobilier"</b>.</div>`
-    : '';
-
   content.innerHTML = `<div class="step-anim">
     ${routingStrip()}
     <button class="back-btn" onclick="prevStep()">← Précédent</button>
     <div class="step-title">Votre logement ${isNew ? '<span class="new-badge">✦ NOUVEAU</span>' : ''}</div>
-    ${lockedNote}
     <div class="field">
       <label>Votre situation de logement</label>
-      <select class="f-select ${hasMortgageCredits && isNew ? 'blocked' : ''}" id="housingType" onchange="updateHousingFields(${isNew})" ${hasMortgageCredits && isNew ? 'disabled' : ''}>
+      <select class="f-select" id="housingType" onchange="updateHousingFields(${isNew})">
         <option value="">Votre situation de logement</option>
-        <option value="owner_with_mortgage" ${hasMortgageCredits && isNew ? 'selected' : ''}>Propriétaire (avec crédit immobilier en cours)</option>
+        <option value="owner_with_mortgage">Propriétaire (avec crédit immobilier en cours)</option>
         <option value="owner_no_mortgage">Propriétaire (sans crédit immobilier)</option>
         <option value="tenant">Locataire</option>
         <option value="free">Logé(e) à titre gratuit</option>
@@ -939,10 +933,26 @@ function renderHousing(content, cta, isNew) {
       <div class="field" style="margin:0"><label>Depuis — Mois</label><input type="number" class="f-input" placeholder="Mois" min="1" max="12" oninput="S.housing.since_month=this.value"></div>
       <div class="field" style="margin:0"><label>Depuis — Année</label><input type="number" class="f-input" placeholder="Année" oninput="S.housing.since_year=this.value"></div>
     </div>
-    ${isNew && hasMortgageCredits ? `
-    <div class="success-banner">✅ Valeur du bien et capital restant dû déjà renseignés à l'étape précédente.</div>` : ''}
+    ${isNew ? `
+    <div id="housing-property-fields" class="hidden">
+      <div class="field">
+        <label>Valeur estimée du bien (€) <span class="new-badge" style="font-size:9px">✦ NOUVEAU</span></label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.housing.property_value=this.value">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+    </div>
+    <div id="housing-mortgage-fields" class="hidden">
+      <div class="field">
+        <label>Capital restant à rembourser — prêt immobilier (€) <span class="new-badge" style="font-size:9px">✦ NOUVEAU</span></label>
+        <div class="input-wrap">
+          <input type="number" class="f-input" placeholder="0" style="padding-right:28px" oninput="S.housing.remaining_debt=this.value">
+          <span class="input-suffix">€</span>
+        </div>
+      </div>
+    </div>` : ''}
   </div>`;
-  if (hasMortgageCredits && isNew) { S.housing.type = 'owner_with_mortgage'; }
 }
 
 function updateHousingFields(isNew) {
